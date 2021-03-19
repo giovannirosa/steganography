@@ -71,7 +71,7 @@ def encrypt():
     cv2.imwrite(output_file, image)
     original_size = os.path.getsize(image_file)
     original_formatted = ' '.join(format_bytes(original_size))
-    
+
     encrypted_size = os.path.getsize(output_file)
     encrypted_formatted = ' '.join(format_bytes(encrypted_size))
 
@@ -85,7 +85,7 @@ def format_bytes(size):
     # 2**10 = 1024
     power = 2**10
     n = 0
-    power_labels = {0 : '', 1: 'kilo', 2: 'mega', 3: 'giga', 4: 'tera'}
+    power_labels = {0: '', 1: 'kilo', 2: 'mega', 3: 'giga', 4: 'tera'}
     while size > power:
         size /= power
         n += 1
