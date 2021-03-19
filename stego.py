@@ -108,8 +108,11 @@ def decrypt():
     image = load_image()[0]
     text = []
     stop = False
+    # percorre linha da imagem
     for _, i in enumerate(image):
+        # percorre coluna da imagem
         for index_j, j in enumerate(i):
+            # caso ultima camada, verifica por EOF
             if index_j % 3 == 2:
                 # primeiro pixel
                 text.append(even_process(j[0]))
