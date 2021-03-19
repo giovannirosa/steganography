@@ -16,7 +16,7 @@ def encrypt():
     image, image_file = load_image()
 
     output_file = None
-    pattern = re.compile("([^\\s]+(\\.(?i)(jpe?g|png|gif|bmp))$)")
+    pattern = re.compile("([^\\s]+(\\.(?i)png)$)")
     while True:
         output_file = input("Output image file:\n")
         if pattern.findall(output_file):
@@ -69,11 +69,27 @@ def encrypt():
 
     # escreve imagem com texto escondido
     cv2.imwrite(output_file, image)
-    original_size = os.path.getsize(image_file) / 1000
-    encrypted_size = os.path.getsize(output_file) / 1000
-    print(f"The size of original file is {original_size:.2f} kB")
-    print(f"The size of encrypted file is {encrypted_size:.2f} kB")
-    print(f"The size difference is {encrypted_size - original_size:.2f} kB")
+    original_size = os.path.getsize(image_file)
+    original_formatted = ' '.join(format_bytes(original_size))
+    
+    encrypted_size = os.path.getsize(output_file)
+    encrypted_formatted = ' '.join(format_bytes(encrypted_size))
+
+    diff_formatted = ' '.join(format_bytes(encrypted_size - original_size))
+    print(f"The size of original file is {original_formatted}")
+    print(f"The size of encrypted file is {encrypted_formatted}")
+    print(f"The size difference is {diff_formatted}")
+
+
+def format_bytes(size):
+    # 2**10 = 1024
+    power = 2**10
+    n = 0
+    power_labels = {0 : '', 1: 'kilo', 2: 'mega', 3: 'giga', 4: 'tera'}
+    while size > power:
+        size /= power
+        n += 1
+    return f"{size:.2f}", power_labels[n]+'bytes'
 
 
 def round_by_two(x):
@@ -155,3 +171,4 @@ if __name__ == '__main__':
 # Refs.:
 # https://www.section.io/engineering-education/steganography-in-python/
 # https://betterprogramming.pub/image-steganography-using-python-2250896e48b9
+# https://stackoverflow.com/questions/12523586/python-format-size-application-converting-b-to-kb-mb-gb-tb/63839503
